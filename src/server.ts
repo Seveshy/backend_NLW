@@ -1,6 +1,11 @@
 import express from 'express'
+import { getRepository } from 'typeorm'
+import Orphanange from './models/Orphanages'
+import bodyParser from 'body-parser';
+
 
 const app = express()
+app.use(express.json())
 
 import './database/connection'
 
@@ -9,14 +14,35 @@ import './database/connection'
 // PUT = EDITANDO UMA INFORMAÇÃO
 // DELETE = DELETANDO UMA INFORMAÇÃO
 
-app.get('/teste', (request, response) => {
-    return response.json({ message: 'Hello World'})
-})
 
-app.post('/teste', (request, response) => {
-    console.log(request.query)
+app.post('/orphananges', async (request, response) => {
+   
+    const { 
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,  
+    } = request.body;
 
-    return response.json({ message: 'Hello World'})
+    const orphanangesRepository = getRepository(Orphanange)
+
+    const orphanange = orphanangesRepository.create({
+        name,
+        latitude,
+        longitude,
+        about,
+        instructions,
+        opening_hours,
+        open_on_weekends   
+    })
+
+    await orphanangesRepository.save(orphanange);
+
+    return response.status(201).json(orphanange)
+
 })
 
 app.listen(3333)
