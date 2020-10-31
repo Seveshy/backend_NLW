@@ -23,6 +23,7 @@ export default {
 
     async create(request: Request, response: Response) {
         
+
         const { 
             name,
             latitude,
@@ -32,14 +33,16 @@ export default {
             opening_hours,
             open_on_weekends,  
           } = request.body;
+
       
           const orphanangesRepository = getRepository(Orphanange)
+
           
           const requestImages = request.files as Express.Multer.File[]
 
-        //   const images = requestImages.map(image => {
-        //       return { path: image.filename }
-        //   })
+          const images = requestImages.map(image => {
+              return { path: image.filename }
+          })
            
           const orphanange = orphanangesRepository.create({
               name,
@@ -49,12 +52,14 @@ export default {
               instructions,
               opening_hours,
               open_on_weekends,
-                 
+              images
           })
-      
+
           await orphanangesRepository.save(orphanange);
       
+
           return response.status(201).json(orphanange)
-      
+
+          
     }
 }
