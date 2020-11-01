@@ -49,7 +49,7 @@ export default {
           })
            
           const orphanange = orphanangesRepository.create({
-              name,
+              nome,
               latitude,
               longitude,
               about,
