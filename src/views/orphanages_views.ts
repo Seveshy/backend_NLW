@@ -1,5 +1,4 @@
 import Orphanage from '../models/Orphanages'
-import images_view from './images_view'
 import imagesView from './images_view'
 
 export default {

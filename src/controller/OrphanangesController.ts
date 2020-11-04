@@ -18,12 +18,16 @@ export default {
 
     async show(request: Request, response: Response) {
         const { id }  = request.params
-        
+
         const orphanangesRepository = getRepository(Orphanange)
 
-        const orphanage = await orphanangesRepository.findOneOrFail(id)
+        const orphanage = await orphanangesRepository.findOneOrFail(id, {
+            relations: ['images']
+        })
 
-        return response.json(orphanageView.render(orphanage))
+         response.json(orphanageView.render(orphanage))
+
+
     },
 
     async create(request: Request, response: Response) {
